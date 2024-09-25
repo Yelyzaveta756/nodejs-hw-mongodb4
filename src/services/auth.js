@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 import bcrypt from 'bcrypt';
 
 export const registerUser = async (payload) => {
-    const { email } = payload
+    const { email } = payload;
     const user = await UserCollection.findOne({email});
 
     if (user) throw createHttpError(409, 'Email in use');
