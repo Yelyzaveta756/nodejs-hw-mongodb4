@@ -4,6 +4,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { logger } from './middlewares/logger.js';
 import { env } from './utils/env.js';
+// import cookieParser from 'cookie-parser';
 import { contactRouter } from './routers/contacts.js';
 import { authRouter } from './routers/auth.js';
 
@@ -14,7 +15,8 @@ export default function setupServer(){
     app.use(cors());
     app.use(logger);
     app.use(express.json());
-    
+    // app.use(cookieParser);
+
     app.use('/auth', authRouter);
     app.use(contactRouter);
 
