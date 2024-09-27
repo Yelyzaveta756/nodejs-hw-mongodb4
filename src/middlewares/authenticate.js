@@ -7,7 +7,7 @@ export const authenticate = async (req, res, next) => {
     const authHeader = req.get('Authorization');
 
     if (!authHeader) {
-      next(createHttpError(401, 'Please provide Authorization header'));
+      next(createHttpError(401, 'Authorization header not found'));
       return;
     }
 
@@ -15,7 +15,7 @@ export const authenticate = async (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     if (bearer !== 'Bearer' || !token) {
-      next(createHttpError(401, 'Auth header should be of type Bearer'));
+      next(createHttpError(401, 'Authorization header should be of type Bearer'));
       return;
     }
 
@@ -36,7 +36,7 @@ export const authenticate = async (req, res, next) => {
     const user = await UserCollection.findById(session.userId);
 
     if (!user) {
-      next(createHttpError(401));
+      next(createHttpError(401, 'User not found'));
       return;
     }
 
