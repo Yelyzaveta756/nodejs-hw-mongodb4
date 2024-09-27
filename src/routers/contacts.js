@@ -9,8 +9,11 @@ import { getAllContactsController,
 import { validateBody } from "../middlewares/validateBody.js";
 import { isValidId } from "../middlewares/isValidId.js";
 import { createContactSchema, updateContactSchema } from "../validation/contacts.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 export const contactRouter = Router();
+
+contactRouter.use(authenticate);
 
 contactRouter.get('/contacts', ctrlWrapper(getAllContactsController));
 contactRouter.get('/contacts/:contactId', isValidId, ctrlWrapper(getContactByIdController));
