@@ -24,7 +24,7 @@ export const getAllContacts = async ({
 
       contactsQuery.where('userId').equals(userId);
 
-    const contactsCount = await ContactsCollection.find().merge(contactsQuery).countDocuments();
+    const contactsCount = await ContactsCollection.find({userId}).merge(contactsQuery).countDocuments();
 
     const contacts = await contactsQuery.skip(skip).limit(perPage).sort({[sortBy]: sortOrder}).exec();
 
@@ -36,19 +36,19 @@ export const getAllContacts = async ({
     };
 };
 
-export const getContactById = async (contactId) => {
-    const contact = ContactsCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+    const contact = ContactsCollection.findOne({_id: contactId, userId});
     return contact;
 };
 
 export const createContact = async (payload, userId) => {
-  return await ContactsCollection.create({ ...payload, _id: userId });
+  return await ContactsCollection.create({ ...payload, userId });
 
 };
 
-export const patchContact = async (contactId, payload, options = {}) => {
+export const patchContact = async (contactId, payload, userId, options = {}) => {
     const rawResult = await ContactsCollection.findOneAndUpdate(
-        { _id: contactId },
+        { _id: contactId, userId },
         payload,
         {
           new: true,
@@ -61,9 +61,10 @@ export const patchContact = async (contactId, payload, options = {}) => {
         return rawResult.value;
 };
 
-export const deleteContact = async (contactId) => {
+export const deleteContact = async (contactId, userId) => {
     const student = await ContactsCollection.findOneAndDelete({
         _id: contactId,
+        userId
       });
 
       return student;

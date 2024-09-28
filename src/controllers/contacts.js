@@ -15,7 +15,8 @@ const userId = req.user._id;
       perPage,
       sortBy,
       sortOrder,
-      filter: {...filter, userId}
+      filter,
+      userId
     });
     res.json({
         status: 200,
