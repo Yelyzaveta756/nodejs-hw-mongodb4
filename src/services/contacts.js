@@ -37,18 +37,18 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-    const contact = ContactsCollection.findOne({_id: contactId, userId});
+    const contact = ContactsCollection.findOne({ _id: contactId, userId });
     return contact;
 };
 
 export const createContact = async (payload, userId) => {
-  return await ContactsCollection.create({ ...payload, userId });
+  return await ContactsCollection.create({ ...payload, _id: userId });
 
 };
 
-export const patchContact = async (contactId, payload, userId, options = {}) => {
+export const patchContact = async (contactId, userId, payload, options = {}) => {
     const rawResult = await ContactsCollection.findOneAndUpdate(
-        { _id: contactId, userId },
+      { _id: contactId, userId },
         payload,
         {
           new: true,
@@ -62,10 +62,6 @@ export const patchContact = async (contactId, payload, userId, options = {}) => 
 };
 
 export const deleteContact = async (contactId, userId) => {
-    const student = await ContactsCollection.findOneAndDelete({
-        _id: contactId,
-        userId
-      });
-
+    const student = await ContactsCollection.findOneAndDelete({ _id: contactId, userId });
       return student;
 };
